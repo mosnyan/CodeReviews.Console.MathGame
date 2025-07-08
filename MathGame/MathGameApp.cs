@@ -53,10 +53,14 @@ public class MathGameApp
             try
             {
                 gameType = GameTypeFactory.Create(selection);
+                if (gameType == GameType.None)
+                {
+                    _view.Display($"The number {selection} does not correspond to any game type.");
+                }
             }
             catch (ArgumentOutOfRangeException e)
             {
-                _view.Display(e.Message);
+                _view.Display($"The number {selection} does not correspond to any game type.");
             }
         }
         return gameType;
@@ -71,10 +75,14 @@ public class MathGameApp
             try
             {
                 difficulty = DifficultyFactory.Create(selection);
+                if (difficulty == Difficulty.None)
+                {
+                    _view.Display($"The number {selection} does not correspond to any difficulty.");
+                }
             }
             catch (ArgumentOutOfRangeException e)
             {
-                _view.Display(e.Message);
+                _view.Display($"The number {selection} does not correspond to any difficulty.");
             }
         }
         return difficulty;
