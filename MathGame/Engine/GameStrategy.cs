@@ -10,10 +10,13 @@ public abstract class GameStrategy
     private Random _rng = new Random();
     protected int LowerRange { private get; init; } = 1;
     protected int UpperRange { private get; init; } = 1;
+    public abstract string Type { get; init; }
+    
+    public Difficulty Difficulty { get; init; }
 
-    protected GameStrategy()
+    protected GameStrategy(Difficulty difficulty)
     {
-        
+        Difficulty = difficulty;
     }
 
     protected int GetRandomOperand()

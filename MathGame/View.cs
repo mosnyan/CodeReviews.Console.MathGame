@@ -14,6 +14,12 @@ public class View
         Console.WriteLine("<><><> CLI Math Game <><><><><><><><><><><><><><><><><><><><><><><><><>");
         Console.WriteLine("\nThis game challenges you to find the answer to arithmetic operations.");
     }
+    
+    public void ShowAvailableFunctions()
+    {
+        Console.WriteLine("\nPlease select a function:");
+        ShowMenuChoices(new GameFunction());
+    }
 
     public void ShowAvailableGameTypes()
     {

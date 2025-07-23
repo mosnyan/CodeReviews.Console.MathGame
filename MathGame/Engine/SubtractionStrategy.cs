@@ -8,7 +8,8 @@ using MathGame.Domain;
 /// </summary>
 public class SubtractionStrategy : GameStrategy
 {
-    internal SubtractionStrategy(Difficulty difficulty)
+    public override string Type { get; init; } = "Subtraction";
+    internal SubtractionStrategy(Difficulty difficulty) : base(difficulty)
     {
         switch (difficulty)
         {

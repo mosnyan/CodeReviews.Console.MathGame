@@ -7,7 +7,8 @@ namespace MathGame.Engine;
 /// </summary>
 public class AdditionStrategy : GameStrategy
 {
-    internal AdditionStrategy(Difficulty difficulty)
+    public override string Type { get; init; } = "Addition";
+    internal AdditionStrategy(Difficulty difficulty) : base(difficulty)
     {
         switch (difficulty)
         {

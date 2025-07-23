@@ -30,5 +30,5 @@ public class GameEngine(GameStrategy strategy, int totalRounds)
     }
 
     public bool GameOver => CurrentRound == totalRounds;
-    public double Score => Double.Round(RightAnswers / CurrentRound * 100.0, 2);
+    public GameRecord Record => new GameRecord(strategy.Type, strategy.Difficulty, RightAnswers, CurrentRound);
 }

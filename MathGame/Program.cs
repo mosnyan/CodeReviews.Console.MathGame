@@ -9,7 +9,7 @@ class Program
     {
         View view = new();
         MathGameApp app = new(view);
-        app.SetupGame();
-        app.PlayGame();
+        app.Initialize();
+        app.Run();
     }
 }

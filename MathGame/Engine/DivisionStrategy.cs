@@ -7,7 +7,8 @@ using MathGame.Domain;
 /// </summary>
 public class DivisionStrategy : GameStrategy
 {
-    internal DivisionStrategy(Difficulty difficulty)
+    public override string Type { get; init; } = "Division";
+    internal DivisionStrategy(Difficulty difficulty) : base(difficulty)
     {
         switch (difficulty)
         {

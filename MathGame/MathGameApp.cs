@@ -1,3 +1,5 @@
+using MathGame.Domain;
+
 namespace MathGame;
 
 using MathGame.Engine;
@@ -9,15 +11,43 @@ public class MathGameApp
 {
     private View _view;
     private GameEngine _engine = null!;
+    private List<GameRecord> _history = [];
 
     public MathGameApp(View view)
     {
         _view = view;
     }
 
-    public void SetupGame()
+    public void Initialize()
     {
         _view.ShowHeader();
+    }
+
+    public void Run()
+    {
+        var gameFunction = GameFunction.None;
+        while (gameFunction != GameFunction.Quit)
+        {
+            _view.ShowAvailableFunctions();
+            gameFunction = SetupGameFunction();
+            switch (gameFunction)
+            {
+                case GameFunction.Play:
+                    SetupGame();
+                    PlayGame();
+                    break;
+                case GameFunction.History:
+                    ShowHistory();
+                    break;
+                case GameFunction.Quit:
+                    _view.Quit();
+                    break;
+            } 
+        }
+    }
+
+    private void SetupGame()
+    {
         _view.ShowAvailableGameTypes();
         var gameType = SetupGameType();
         _view.ShowAvailableDifficulties();
@@ -29,7 +59,7 @@ public class MathGameApp
         _engine = new GameEngine(strategy, numberOfRounds);
     }
 
-    public void PlayGame()
+    private void PlayGame()
     {
         while (!_engine.GameOver)
         {
@@ -41,7 +71,29 @@ public class MathGameApp
             _view.ShowRoundResult(success, expression.Result);
         }
         _view.ShowGameResult(_engine.RightAnswers, _engine.CurrentRound);
-        _view.Quit();
+        _history.Add(_engine.Record);
+    }
+
+    private GameFunction SetupGameFunction()
+    {
+        GameFunction gameFunction = GameFunction.None;
+        while (gameFunction == GameFunction.None)
+        {
+            var selection = _view.GetNumberFromPlayer();
+            try
+            {
+                gameFunction = GameFunctionFactory.Create(selection);
+                if (gameFunction == GameFunction.None)
+                {
+                    _view.Display($"The number {selection} does not correspond to any game type.");
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                _view.Display($"The number {selection} does not correspond to any game type.");
+            }
+        }
+        return gameFunction;
     }
 
     private GameType SetupGameType()
@@ -97,5 +149,21 @@ public class MathGameApp
             selection = _view.GetNumberFromPlayer();
         }
         return selection;
+    }
+
+    private void ShowHistory()
+    {
+        if (_history.Count == 0)
+        {
+            _view.Display("No games to show.");
+        }
+        else
+        {
+            int i = 0;
+            foreach (var record in _history)
+            {
+                _view.Display($"Game {++i}\n" + record);
+            }
+        }
     }
 }
